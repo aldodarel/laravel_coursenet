@@ -10,7 +10,8 @@
 @csrf
 
 <label>Input angka 1</label>
-<input type="number" name="input1" class="form-control">
+<input type="number" name="input1" value="{{ old('input1') }}" class="form-control">
+<span style="color:red"> {{ $errors->first("input1") }} </span>
 <br><br>
 
 <label>Operator</label>
@@ -23,7 +24,8 @@
 <br><br>
 
 <label>Input angka 2</label>
-<input type="number" name="input2" class="form-control">
+<input type="number" name="input2" value="{{ old('input2') }}" class="form-control">
+<span style="color:red"> {{ $errors->first("input2") }} </span>
 <br><br>
 
 

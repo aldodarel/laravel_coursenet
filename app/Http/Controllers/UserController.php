@@ -17,11 +17,16 @@ class UserController extends Controller
     function operator(Request $req)
     {
         Validator::make(
-            $req->all(),[
-                
-            ],[]);
-
-
+            $req->all(),
+            [
+                'input1' => 'required',
+                'input2' => 'required',
+                'v_operator' => 'required'
+            ],
+            [
+                'input1.required' => 'Wajib input angka, silakan coba lagi',
+                'input2.required' => 'Wajib input angka, silakan coba lagi'
+            ])->validate();
 
 
 
@@ -81,8 +86,6 @@ class UserController extends Controller
                 'value_name.max' => 'nama maksimal 30 karakter',
                 'value_password_confirmation.confirmed' => 'Password harus sama dengan Confirm password',
                 'value_name.min' => 'Password harus minimal 5 karakter',
-
-
             ]
         )->validate();
 
