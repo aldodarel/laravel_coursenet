@@ -42,6 +42,11 @@ Home
     {{ $errors->first("value_date") }}
  </div>
 
+ <div class="form-group">
+    <label>Address</label>
+    <input name="value_address" type="text" value="{{ old('value_address') }}" class="form-control" required>
+    {{ $errors->first("value_address") }}
+ </div>
 
  <div class="form-group">
     <label>Gender</label>

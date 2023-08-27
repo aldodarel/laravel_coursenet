@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // nama table disarankan berakhiran -s, cth: members
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string("nama", 30);
@@ -21,6 +22,8 @@ return new class extends Migration
             $table->timestamps(); // created_at, updated_at
         });
     }
+    // setiap ada perubahan database harus make migration baru, ubah data di migrate baru
+    // dan "php artisan migrate" untuk dimigrasi data barunya
 
     /**
      * Reverse the migrations.
@@ -30,3 +33,9 @@ return new class extends Migration
         Schema::dropIfExists('members');
     }
 };
+
+// kalau table tidak pakai s
+// protected $table = 'product';
+
+// kalau di table kita tidak membuat timestamps
+// protected $timestamps = false;

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Dotenv\Validator as DotenvValidator;
 use Validator;
+use App\Models\Member;
+use App\Models\Operation;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -27,7 +29,6 @@ class UserController extends Controller
                 'input1.required' => 'Wajib input angka, silakan coba lagi',
                 'input2.required' => 'Wajib input angka, silakan coba lagi'
             ])->validate();
-
 
 
         $a = $req->input1;
@@ -60,6 +61,13 @@ class UserController extends Controller
             // echo "Inputan variabel $op belum tepat";
         }
 
+        // save ke database
+        $data = new Operation;
+        $data->input1 = $a;
+        $data->input2 = $b;
+        $data->operator = $op;
+        $data->save();
+
 
         return view('home.hasil', compact('a', 'b', 'result', 'symbol'));
     }
@@ -80,7 +88,8 @@ class UserController extends Controller
                 'value_email' => 'required | min:14 | max:60 | email',
                 'value_password' => 'required | min:8 | confirmed',
                 'value_password_confirmation' => 'required | min:8',
-                'value_gender' => 'required'
+                'value_gender' => 'required',
+                'value_address' => 'required'
             ],
             [
                 'value_name.max' => 'nama maksimal 30 karakter',
@@ -99,6 +108,18 @@ class UserController extends Controller
         $confirm_password = $req->value_confirm_pw;
         $isi_dob = $req->value_date;
         $isi_gender = $req->value_gender;
+        $isi_address = $req->value_address;
+
+
+        // save ke database, nama variable terserah
+        $database = new Member;
+        $database->nama = $isi_nama;
+        $database->email = $isi_email;
+        $database->dob = $isi_dob;
+        $database->gender = $isi_gender;
+        $database->password = $isi_password;
+        $database->address = $isi_address;
+        $database->save();
 
         return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
     }
