@@ -7,6 +7,8 @@ use Validator;
 use App\Models\Member;
 use App\Models\Operation;
 use Illuminate\Http\Request;
+use Hash;
+use Illuminate\Support\Facades\Hash as FacadesHash;
 
 class UserController extends Controller
 {
@@ -85,7 +87,7 @@ class UserController extends Controller
             $req->all(),
             [
                 'value_name' => 'required | min:5 | max:30 | alpha:ascii',
-                'value_email' => 'required | min:14 | max:60 | email',
+                'value_email' => 'required | min:14 | max:60 | email | unique:members,email',
                 'value_password' => 'required | min:8 | confirmed',
                 'value_password_confirmation' => 'required | min:8',
                 'value_gender' => 'required',
@@ -117,10 +119,24 @@ class UserController extends Controller
         $database->email = $isi_email;
         $database->dob = $isi_dob;
         $database->gender = $isi_gender;
-        $database->password = $isi_password;
+        $database->password = Hash::make($isi_password); // hashing
         $database->address = $isi_address;
         $database->save();
 
         return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
     }
+
+    // menampilkan data members
+    function lists()
+    {
+        // $data = Member::all();
+        $data = Member::paginate(2);
+        // $data = Member::orderBy("nama")->paginate(2);
+        // $data = Member::simplePaginate(2);      // untuk paginate simple panah saja
+
+        return view('home.list', compact('data')); // compact memanggil variabel $data
+    }
 }
+
+// membuat model awal harus kapital seperti UserController mengikuti rule laravel
+

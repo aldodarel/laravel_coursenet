@@ -31,3 +31,5 @@ Route::post("save-user", [UserController::class, 'save']);
 
 Route::post("calculator", [UserController::class, 'operator']);
 Route::get("calculator", [UserController::class, 'hitung']);
+
+Route::get("list-user", [UserController::class, 'lists']);

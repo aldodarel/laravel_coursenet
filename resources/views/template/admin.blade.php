@@ -252,7 +252,16 @@
             <a href="{{ Url('tambah-user') }}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Users
+                Tambah User
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ Url('list-user') }}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                List User
               </p>
             </a>
           </li>
@@ -897,7 +906,7 @@
         <div class="container-fluid">
           <!-- Small boxes (Stat box) -->
           <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-6 col-6">
                 @yield('content')
             </div>
           </div>
