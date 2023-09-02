@@ -41,16 +41,32 @@
             <th>Email</th>
             <th>Gender</th>
             <th>DOB</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($data as $d)
         <tr>
-            <td>{{ $loop->iteration }}</td>
+            {{-- agar data bisa berurut paginationnya --}}
+            <td>{{ $data->firstItem() + $loop->index }}</td>
             <td>{{ $d->nama }}</td>
             <td>{{ $d->email }}</td>
             <td>{{ $d->gender }}</td>
             <td>{{ $d->dob }}</td>
+            {{-- untuk delete data --}}
+            <td>
+                {{-- http://localhost:8000/update-user/1 --}}
+                {{-- http://localhost:8000/update-user/2 --}}
+                <a href="{{ Url('update-user') }}/{{ $d->id }}" class="btn btn-primary">Update</a>
+                <br><br>
+
+                {{-- 3 hal dalam mengirim data yang harus ada: method, url, name  --}}
+            <form method="post" action="{{ Url('delete-user') }}">
+                @csrf
+                <input name="form1" type="hidden" value="{{ $d->id }}"/>
+                <button type="submit" onclick="return confirm('Are you sure want to delete this data?');" class="btn btn-danger">Delete</button>
+            </form>
+            </td>
         </tr>
         @endforeach
     </tbody>

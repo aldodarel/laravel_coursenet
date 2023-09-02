@@ -123,7 +123,8 @@ class UserController extends Controller
         $database->address = $isi_address;
         $database->save();
 
-        return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
+        // return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
+        return redirect("list-user");
     }
 
     // menampilkan data members
@@ -135,6 +136,71 @@ class UserController extends Controller
         // $data = Member::simplePaginate(2);      // untuk paginate simple panah saja
 
         return view('home.list', compact('data')); // compact memanggil variabel $data
+    }
+
+    function delete(Request $req)
+    // Request $req
+    {
+        // ambil dari form delete yang namenya = "form1"
+        $isi_id = $req->form1;
+
+        $model = Member::find($isi_id); // cari data di table members yang idnya = isi_id
+        $model->delete();
+
+        return redirect("list-user");
+    }
+
+    function update($id)
+    {
+        $data = Member::find($id);
+
+        return view('home.update', compact('data'));
+    }
+
+    function edit(Request $req) // mengambil data yang disubmit dari form
+    {
+        // validasi
+        Validator::make(
+            $req->all(),
+            [
+                'value_name' => 'required | min:5 | max:30 | alpha:ascii',
+                'value_email' => 'required | min:14 | max:60 | email',
+                'value_gender' => 'required',
+                'value_address' => 'required'
+            ],
+            [
+                'value_name.max' => 'nama maksimal 30 karakter',
+                'value_password_confirmation.confirmed' => 'Password harus sama dengan Confirm password',
+                'value_name.min' => 'Password harus minimal 5 karakter',
+            ]
+        )->validate();
+
+
+        // echo $req->value_name . " " . $req->value_email;
+        // name, email, password, dob, gender ??
+        // Request
+        $isi_nama = $req->value_name;
+        $isi_email = $req->value_email;
+        $isi_password = $req->value_password;
+        $confirm_password = $req->value_confirm_pw;
+        $isi_dob = $req->value_date;
+        $isi_gender = $req->value_gender;
+        $isi_address = $req->value_address;
+        $isi_id = $req->value_id;
+
+
+        // save ke database, nama variable terserah
+        $database = Member::find($isi_id); // cari di database yang sesuai dengan mau diedit
+        $database->nama = $isi_nama;
+        $database->email = $isi_email;
+        $database->dob = $isi_dob;
+        $database->gender = $isi_gender;
+        $database->password = Hash::make($isi_password); // hashing
+        $database->address = $isi_address;
+        $database->save();
+
+        // return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
+        return redirect("list-user");
     }
 }
 

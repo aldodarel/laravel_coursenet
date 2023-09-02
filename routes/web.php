@@ -18,18 +18,16 @@ Route::get("/register", [RegistrasiController::class, 'register']);
 
 Route::get("/product/{brand}",
 [HomeController::class, 'product'])->where('brand', 'samsung|asus|oppo|lenovo|macbook');
-
 Route::get("/produktoko/{brand}",[HomeController::class, 'product'])->where('brand', 'samsung|asus|oppo|lenovo|macbook');
-
 Route::get("product/{hp}/{seri}", [HomeController::class, 'productDetail']);
-
 Route::get("/welcomee", [HomeController::class, 'welcome']);
 
+
 Route::get("tambah-user", [UserController::class, 'user']);
-
 Route::post("save-user", [UserController::class, 'save']);
-
 Route::post("calculator", [UserController::class, 'operator']);
 Route::get("calculator", [UserController::class, 'hitung']);
-
 Route::get("list-user", [UserController::class, 'lists']);
+Route::post("delete-user", [UserController::class, 'delete']);
+Route::post("update-user", [UserController::class, 'edit']);
+Route::get("update-user/{id}", [UserController::class, 'update']);
