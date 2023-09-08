@@ -62,8 +62,9 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Member::class,
         ],
+        //buat ngecek user dan password nantinya apakah valid ke table member
 
         // 'users' => [
         //     'driver' => 'database',

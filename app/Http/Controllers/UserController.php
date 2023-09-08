@@ -86,8 +86,8 @@ class UserController extends Controller
         Validator::make(
             $req->all(),
             [
-                'value_name' => 'required | min:5 | max:30 | alpha:ascii',
-                'value_email' => 'required | min:14 | max:60 | email | unique:members,email',
+                'value_name' => 'required | min:5 | max:30 | regex:/^[\pL\s\-]+$/u',
+                'value_email' => 'required | min:14 | max:60 | email | unique:members,email', // unique:members validasi agar tidak terdaftar email 2 kali
                 'value_password' => 'required | min:8 | confirmed',
                 'value_password_confirmation' => 'required | min:8',
                 'value_gender' => 'required',
@@ -103,7 +103,7 @@ class UserController extends Controller
 
         // echo $req->value_name . " " . $req->value_email;
         // name, email, password, dob, gender ??
-        // Request
+        // Request      (dari inputan user)
         $isi_nama = $req->value_name;
         $isi_email = $req->value_email;
         $isi_password = $req->value_password;
@@ -163,7 +163,7 @@ class UserController extends Controller
         Validator::make(
             $req->all(),
             [
-                'value_name' => 'required | min:5 | max:30 | alpha:ascii',
+                'value_name' => 'required | min:5 | max:30 | regex:/^[\pL\s\-]+$/u',
                 'value_email' => 'required | min:14 | max:60 | email',
                 'value_gender' => 'required',
                 'value_address' => 'required'

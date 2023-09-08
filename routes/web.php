@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
 
 
 // http://localhost:8000/
@@ -16,8 +17,7 @@ Route::get("/register", [RegistrasiController::class, 'register']);
 //  http://localhost:8000/product/samsung/galaxy => Product dengan brand samsung dan seri galaxy
 //  http://localhost:8000/product/oppo/b9000 => Product dengan brand oppo dan seri b9000
 
-Route::get("/product/{brand}",
-[HomeController::class, 'product'])->where('brand', 'samsung|asus|oppo|lenovo|macbook');
+Route::get("/product/{brand}",[HomeController::class, 'product'])->where('brand', 'samsung|asus|oppo|lenovo|macbook');
 Route::get("/produktoko/{brand}",[HomeController::class, 'product'])->where('brand', 'samsung|asus|oppo|lenovo|macbook');
 Route::get("product/{hp}/{seri}", [HomeController::class, 'productDetail']);
 Route::get("/welcomee", [HomeController::class, 'welcome']);
@@ -31,3 +31,7 @@ Route::get("list-user", [UserController::class, 'lists']);
 Route::post("delete-user", [UserController::class, 'delete']);
 Route::post("update-user", [UserController::class, 'edit']);
 Route::get("update-user/{id}", [UserController::class, 'update']);
+
+// Route untuk Login Page
+Route::get("login", [LoginController::class, "index"]);
+Route::post("proses-login", [LoginController::class, "signin"]);
