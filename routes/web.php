@@ -8,7 +8,8 @@ use App\Http\Controllers\LoginController;
 
 
 // http://localhost:8000/
-Route::get("/", [HomeController::class, 'index']);
+Route::get("/", [HomeController::class, 'index'])->middleware("auth");
+Route::get("/home", [HomeController::class, 'index'])->middleware("auth"); // untuk mendirect ketika sudah login dan ketik route '/login' kembali
 
 Route::get("/about", [HomeController::class, 'about']);
 
@@ -27,11 +28,32 @@ Route::get("tambah-user", [UserController::class, 'user']);
 Route::post("save-user", [UserController::class, 'save']);
 Route::post("calculator", [UserController::class, 'operator']);
 Route::get("calculator", [UserController::class, 'hitung']);
-Route::get("list-user", [UserController::class, 'lists']);
-Route::post("delete-user", [UserController::class, 'delete']);
-Route::post("update-user", [UserController::class, 'edit']);
-Route::get("update-user/{id}", [UserController::class, 'update']);
+Route::get("list-user", [UserController::class, 'lists'])->middleware("auth"); // rutenya hanya boleh diakses kalau sudah login
+// 1. login
+// 2. buka list user -> sukses
+// 3. logout
+// 4. buka list user -> gagal dan pindah ke halaman login
+
+Route::post("delete-user", [UserController::class, 'delete'])->middleware("auth");
+Route::post("update-user", [UserController::class, 'edit'])->middleware("auth");
+Route::get("update-user/{id}", [UserController::class, 'update'])->middleware("auth");
+Route::get("pdf-user", [UserController::class, 'filepdf'])->middleware("auth");
+Route::get("/excel-user", [UserController::class, 'fileexcel'])->middleware("auth");
+
 
 // Route untuk Login Page
-Route::get("login", [LoginController::class, "index"]);
-Route::post("proses-login", [LoginController::class, "signin"]);
+// login hanya bisa diakses kalai belum login
+Route::get("login", [LoginController::class, "index"])->name("login")->middleware("guest"); // rutenya hanya boleh diakses kalau belum login
+// 1. login
+// 2. akses alamat/login -> gagal
+// 3. logout -> page login
+Route::post("proses-login", [LoginController::class, "signin"])->middleware("guest");
+Route::get("logout", [LoginController::class, "signout"])->middleware("auth");
+
+// list user hanya bisa kita akses kalau sudah login
+
+
+
+
+
+

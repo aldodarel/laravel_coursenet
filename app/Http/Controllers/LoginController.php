@@ -35,4 +35,10 @@ class LoginController extends Controller
             return redirect()->back()->withErrors(['password'=>['Invalid email or password']]);
         }
     }
+
+    function signout()
+    {
+        Auth::logout();
+        return redirect("login");   // pindah ke halaman login
+    }
 }

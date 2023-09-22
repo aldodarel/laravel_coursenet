@@ -33,6 +33,9 @@
     }
 </style> --}}
 
+<a href="{{ Url('/pdf-user') }}" class="btn btn-primary">Download PDF</a><br><br>
+<a href="{{ Url('/excel-user') }}" class="btn btn-success">Download Excel</a><br><br>
+
 <table class="table table-striped table-bordered">
     <thead>
         <tr>

@@ -8,6 +8,8 @@ use App\Models\Member;
 use App\Models\Operation;
 use Illuminate\Http\Request;
 use Hash;
+use PDF;
+use Mail;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 
 class UserController extends Controller
@@ -123,6 +125,11 @@ class UserController extends Controller
         $database->address = $isi_address;
         $database->save();
 
+        // utk kirim email
+        Mail::send("users.email", [], function($msg) use($isi_email){
+            $msg->to($isi_email)->subject("Registrasi berhasil");
+        });
+
         // return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
         return redirect("list-user");
     }
@@ -201,6 +208,25 @@ class UserController extends Controller
 
         // return view('home.result', compact('isi_nama', 'isi_email', 'isi_dob', 'isi_gender'));
         return redirect("list-user");
+    }
+
+    function filepdf()
+    {
+        $data = Member::all();   // mengambil data dari tabel members
+        $dataPDF = [
+            'tanggal' => date('d-m-Y H:i:s'), // Tanggal dan waktu pencetakan
+            'data' => $data, // Data dari database
+        ];
+
+        $pdf = PDF::loadView('pdf.users', $dataPDF);
+        $namafile = date("YmdHis") . "_.pdf";
+
+        return $pdf->download($namafile);
+    }
+
+    function fileexcel()
+    {
+
     }
 }
 
